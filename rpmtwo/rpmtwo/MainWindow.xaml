@@ -1,0 +1,109 @@
+﻿<Window x:Class="rpmtwo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:rpmtwo"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="900" Width="1000">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Пункт 2: Меню -->
+        <Menu Grid.Row="0" Margin="0,0,0,10">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Выход" Click="Exit_Click"/>
+            </MenuItem>
+            <MenuItem Header="Справка">
+                <MenuItem Header="О программе" Click="About_Click"/>
+            </MenuItem>
+        </Menu>
+
+        <!-- Пункт 3: Кнопки -->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
+            <Button Content="Добавить" Width="100" Height="35" Margin="5" Click="Add_Click" Background="LightGreen"/>
+            <Button Content="Изменить" Width="100" Height="35" Margin="5" Click="Edit_Click" Background="LightBlue"/>
+            <Button Content="Просмотр" Width="100" Height="35" Margin="5" Click="View_Click" Background="Orange"/>
+            <Button Content="Удалить" Width="100" Height="35" Margin="5" Click="Delete_Click" Background="LightCoral"/>
+            <Button Content="Обновить" Width="100" Height="35" Margin="5" Click="Refresh_Click" Background="LightGray"/>
+        </StackPanel>
+
+        <!-- Таблица -->
+        <DataGrid x:Name="dgFlights" Grid.Row="2" AutoGenerateColumns="True" 
+          CanUserAddRows="False" SelectionMode="Single" 
+          SelectionChanged="dgFlights_SelectionChanged" 
+          Margin="0,0,0,10" Height="280" FontSize="13"
+          AlternatingRowBackground="#F5F5F5" 
+          IsReadOnly="True"
+          ItemsSource="{Binding}">
+            <!-- Добавь эту строку -->
+        </DataGrid>
+
+        <!-- Пункт 6: SQL Запросы -->
+        <GroupBox Grid.Row="3" Header="SQL Запросы" Margin="0,0,0,5" FontWeight="Bold">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Выборка -->
+                <StackPanel Grid.Row="0" Grid.Column="0" Margin="5">
+                    <TextBlock Text="Рейсы в город:" FontWeight="Bold"/>
+                    <TextBox x:Name="txtCity" Text="Сочи" Margin="0,2,0,5"/>
+                    <Button Content="Выполнить" Click="QuerySelectByCity" Background="#E3F2FD"/>
+
+                    <TextBlock Text="Рейсы после даты:" FontWeight="Bold" Margin="0,10,0,0"/>
+                    <DatePicker x:Name="dpDate" SelectedDate="2025-06-05" Margin="0,2,0,5"/>
+                    <Button Content="Выполнить" Click="QuerySelectByDate" Background="#E3F2FD"/>
+
+                    <TextBlock Text="Свободных мест >" FontWeight="Bold" Margin="0,10,0,0"/>
+                    <TextBox x:Name="txtMinSeats" Text="50" Margin="0,2,0,5"/>
+                    <Button Content="Выполнить" Click="QuerySelectBySeats" Background="#E3F2FD"/>
+                </StackPanel>
+
+                <!-- Обновление -->
+                <StackPanel Grid.Row="0" Grid.Column="1" Margin="5">
+                    <TextBlock Text="Увеличить места на %:" FontWeight="Bold"/>
+                    <TextBox x:Name="txtPercent" Text="10" Margin="0,2,0,5"/>
+                    <Button Content="Выполнить" Click="QueryUpdateSeats" Background="#FFF3E0"/>
+
+                    <TextBlock Text="Сменить тип самолета:" FontWeight="Bold" Margin="0,10,0,0"/>
+                    <TextBox x:Name="txtOldType" Text="Boeing 737" Margin="0,2,0,2"/>
+                    <TextBox x:Name="txtNewType" Text="Boeing 737 MAX" Margin="0,0,0,5"/>
+                    <Button Content="Выполнить" Click="QueryUpdateAircraft" Background="#FFF3E0"/>
+                </StackPanel>
+
+                <!-- Удаление -->
+                <StackPanel Grid.Row="0" Grid.Column="2" Margin="5">
+                    <TextBlock Text="Удалить рейсы в город:" FontWeight="Bold"/>
+                    <TextBox x:Name="txtDeleteCity" Text="Париж" Margin="0,2,0,5"/>
+                    <Button Content="Выполнить" Click="QueryDeleteByCity" Background="#FFEBEE"/>
+
+                    <TextBlock Text="Удалить рейсы с 0 мест:" FontWeight="Bold" Margin="0,10,0,0"/>
+                    <Button Content="Выполнить" Click="QueryDeleteZeroSeats" Background="#FFEBEE" Margin="0,2,0,0"/>
+                </StackPanel>
+
+                <!-- Результаты запросов - ПОДНЯЛ ВЫШЕ И УВЕЛИЧИЛ HEIGHT -->
+                <ListBox x:Name="lbResults" Grid.Row="1" Grid.ColumnSpan="3" Height="100" Margin="5" VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+
+        <!-- StatusBar - теперь фиксированный внизу -->
+        <StatusBar Grid.Row="4" VerticalAlignment="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="tbStatus" Foreground="Green"/>
+            </StatusBarItem>
+        </StatusBar>
+    </Grid>
+</Window>
