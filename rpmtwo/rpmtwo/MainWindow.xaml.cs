@@ -19,12 +19,27 @@ namespace rpmtwo
     public partial class MainWindow : Window
     {
         private AeroflotDbContext db;
-    
-        public MainWindow()
+        private User currentUser;
+        private string userRole;
+        public MainWindow(User user)
         {
             InitializeComponent();
             db = new AeroflotDbContext();
+            currentUser = user;
+            var role = db.Roles.FirstOrDefault(r => r.RoleId == currentUser.UserRole);
+            userRole = role?.RoleName ?? "Unknown";
             LoadData();
+            SetPermissionsByRole();
+        }
+        private void SetPermissionsByRole()
+        {
+            if (userRole != "Admin")
+            {
+                btnAdd.IsEnabled = false;
+                btnEdit.IsEnabled = false;
+                btnDelete.IsEnabled = false;
+                // tbStatus.Text += " (Только просмотр)";
+            }
         }
         private void LoadData()
         {

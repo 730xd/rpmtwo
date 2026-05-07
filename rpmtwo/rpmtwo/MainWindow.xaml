@@ -26,10 +26,10 @@
 
         <!-- Пункт 3: Кнопки -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,10">
-            <Button Content="Добавить" Width="100" Height="35" Margin="5" Click="Add_Click" Background="LightGreen"/>
-            <Button Content="Изменить" Width="100" Height="35" Margin="5" Click="Edit_Click" Background="LightBlue"/>
+            <Button x:Name="btnAdd" Content="Добавить" Width="100" Height="35" Margin="5" Click="Add_Click" Background="LightGreen"/>
+            <Button x:Name="btnEdit" Content="Изменить" Width="100" Height="35" Margin="5" Click="Edit_Click" Background="LightBlue"/>
             <Button Content="Просмотр" Width="100" Height="35" Margin="5" Click="View_Click" Background="Orange"/>
-            <Button Content="Удалить" Width="100" Height="35" Margin="5" Click="Delete_Click" Background="LightCoral"/>
+            <Button x:Name="btnDelete" Content="Удалить" Width="100" Height="35" Margin="5" Click="Delete_Click" Background="LightCoral"/>
             <Button Content="Обновить" Width="100" Height="35" Margin="5" Click="Refresh_Click" Background="LightGray"/>
         </StackPanel>
 
